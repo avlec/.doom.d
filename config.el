@@ -52,7 +52,15 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;; Tell cc to use the -isystem to find headers.
+(defun enter-fullscreen ()
+  (interactive)
+  (set-frame-parameter nil 'fullscreen 'fullboth) ;this makes the frame go fullscreen
+  (tool-bar-mode -1) ;these 3 lines turn off GUI junk
+  (scroll-bar-mode -1)
+  (menu-bar-mode -1))
+(enter-fullscreen)
+
+;; Tell cc to use the -isystem to find headers on MacOS
 
 (if (eq system-type 'darwin)
   (add-hook 'c++-mode-hook (setq +cc-default-compiler-options "-isystem")))
@@ -60,3 +68,21 @@
 (add-hook 'c++-mode-hook (setq flycheck-clang-language-standard "c++17"))
 (add-hook 'c++-mode-hook (setq flycheck-gcc-language-standard "c++17"))
 
+;; Keybindings to add in window switching with arrow keys.
+
+(map! :leader
+      :desc "Move to left window."
+      "w <left>"
+      #'evil-window-left)
+(map! :leader
+      :desc "Move to right window."
+      "w <right>"
+      #'evil-window-right)
+(map! :leader
+      :desc "Move to up window."
+      "w <up>"
+      #'evil-window-up)
+(map! :leader
+      :desc "Move to down window."
+      "w <down>"
+      #'evil-window-down)
