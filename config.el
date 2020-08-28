@@ -51,3 +51,12 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+;; Tell cc to use the -isystem to find headers.
+
+(if (eq system-type 'darwin)
+  (add-hook 'c++-mode-hook (setq +cc-default-compiler-options "-isystem")))
+
+(add-hook 'c++-mode-hook (setq flycheck-clang-language-standard "c++17"))
+(add-hook 'c++-mode-hook (setq flycheck-gcc-language-standard "c++17"))
+
