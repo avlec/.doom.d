@@ -83,21 +83,20 @@
   (scroll-bar-mode -1)
   (menu-bar-mode -1))
 
+;; fullscreen for macos
 (if (eq system-type 'darwin)
     (enter-fullscreen))
 
 ;; Tell cc to use the -isystem to find headers on MacOS
-
 (if (eq system-type 'darwin)
   (add-hook 'c++-mode-hook (setq +cc-default-compiler-options "-isystem")))
 
+;; c++ mode hooks for the flycheck
 (setq cxx_version "c++17")
-
 (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard cxx_version)))
 (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard   cxx_version)))
 
 ;; Keybindings to add in window switching with arrow keys.
-
 (map! :leader
       :desc "Move to left window."
       "w <left>"
