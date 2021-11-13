@@ -52,8 +52,32 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+(add-hook 'org-mode-hook 'org-indent-mode)
+(setq org-directory "~/org/"
+      org-agenda-files "~/org/agenda.org"
+      org-default-notes-file (expand-file-name "notes.org" org-directory)
+      org-log-done 'time
+      org-journal-dir "~/org/journal/"
+      org-todo-keywords '((sequence
+         "TODO(t)"
+         "IN PROGRESS(p)"
+         "WAIT (w)"
+         "|"            ;; active above this, inactive below this
+         "DONE(d)"
+         "CANCELLED(c)")))
+
+(require 'org-tempo)
+
+(use-package org-bullets)
+(add-hook 'org-mode-hook (lambda() (org-bullets-mode 1)))
+
 (use-package! ob-http
   :commands org-babel-execute:http)
+
+(setq org-src-fontify-natively t
+      org-src-tab-acts-natively t
+      org-confirm-babel-evaluate nil
+      org-edit-src-content-indentation 0)
 
 (defun enter-fullscreen ()
   (interactive)
@@ -61,18 +85,21 @@
   (tool-bar-mode -1) ;these 3 lines turn off GUI junk
   (scroll-bar-mode -1)
   (menu-bar-mode -1))
-(enter-fullscreen)
+
+;; fullscreen for macos
+(if (eq system-type 'darwin)
+    (enter-fullscreen))
 
 ;; Tell cc to use the -isystem to find headers on MacOS
-
 (if (eq system-type 'darwin)
   (add-hook 'c++-mode-hook (setq +cc-default-compiler-options "-isystem")))
 
-(add-hook 'c++-mode-hook (setq flycheck-clang-language-standard "c++17"))
-(add-hook 'c++-mode-hook (setq flycheck-gcc-language-standard "c++17"))
+;; c++ mode hooks for the flycheck
+(setq cxx_version "c++17")
+(add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard cxx_version)))
+(add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard   cxx_version)))
 
 ;; Keybindings to add in window switching with arrow keys.
-
 (map! :leader
       :desc "Move to left window."
       "w <left>"
@@ -89,3 +116,6 @@
       :desc "Move to down window."
       "w <down>"
       #'evil-window-down)
+
+;; Make gc pauses faster by decreasing threshold
+(setq gc-cons-threshold (* 2 1000 1000))
