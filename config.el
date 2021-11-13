@@ -52,6 +52,9 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+(use-package! ob-http
+  :commands org-babel-execute:http)
+
 (defun enter-fullscreen ()
   (interactive)
   (set-frame-parameter nil 'fullscreen 'fullboth) ;this makes the frame go fullscreen

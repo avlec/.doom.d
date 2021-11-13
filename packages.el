@@ -48,3 +48,7 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
+
+(package! ob-http :pin "b1428ea2a63bcb510e7382a1bf5fe82b19c104a7")
+
+(package! org-tree-slide)
