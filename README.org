@@ -1,2 +1,2 @@
-# /home/avlec/.doom.d
+* /home/avlec/.doom.d
 my doom emacs configuration
